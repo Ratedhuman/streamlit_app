@@ -1,29 +1,49 @@
-import streamlit
-import pandas
+# Import necessary libraries
+import streamlit as st
+import pandas as pd
 
-streamlit.title("My Mom's New Healthy Diner")
+# Set the title of the application
+st.title("My Mom's New Healthy Diner")
 
-streamlit.header('Breakfast Menu')
-streamlit.text('🥣 Omega 3 & Blueberry Oatmeal')
-streamlit.text('🥗 Kale, Spinach & Rocket Smoothie')
-streamlit.text('🐔 Hard-Boiled Free-Range Egg')
-streamlit.text('🥑🍞 Avocado Toast')
+# Set a section header for the breakfast menu
+st.header('Breakfast Menu')
 
-streamlit.header(" 🍌🥭 Build Your Own Fruit Smoothie 🥝🍇")
+# Add items to the breakfast menu
+st.text('🥣 Omega 3 & Blueberry Oatmeal')
+st.text('🥗 Kale, Spinach & Rocket Smoothie')
+st.text('🐔 Hard-Boiled Free-Range Egg')
+st.text('🥑🍞 Avocado Toast')
 
+# Set a section header for the smoothie builder
+st.header(" 🍌🥭 Build Your Own Fruit Smoothie 🥝🍇")
 
-# We're going to use a CSV file from that bucket in our app.
-my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
+# Load the CSV file from the provided URL into a DataFrame
+my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 
-# Let's put a pick list here so they cab pick thr fruit they want to include
-streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index),['Avocado','Strawberries'])
-
-# choose the Fruit Name Column as the index
+# Set the 'Fruit' column as the index of the DataFrame
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
-# Let's put a pick list here so they can pick the fruit they want to include
-streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index))
+# Create a multiselect widget for selecting fruits
+# This widget presents a list of all fruits in the DataFrame
+# By default, 'Avocado' and 'Strawberries' are selected
+selected_fruits = st.multiselect("Pick some fruits:", list(my_fruit_list.index), default=['Avocado', 'Strawberries'])
 
-# Display the table on the page
-streamlit.dataframe(my_fruit_list)
+# Filter the DataFrame based on the selected fruits
+filtered_df = my_fruit_list.loc[selected_fruits]
+
+# Display the filtered DataFrame
+st.dataframe(filtered_df)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
