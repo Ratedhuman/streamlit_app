@@ -18,34 +18,27 @@ st.text('🥑🍞 Avocado Toast')
 st.header(" 🍌🥭 Build Your Own Fruit Smoothie 🥝🍇")
 
 # Load the CSV file from the provided URL into a DataFrame
+# This CSV file contains information about different fruits
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 
 # Set the 'Fruit' column as the index of the DataFrame
+# This helps us to access rows of data using the fruit names
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
 # Create a multiselect widget for selecting fruits
 # This widget presents a list of all fruits in the DataFrame
 # By default, 'Avocado' and 'Strawberries' are selected
-selected_fruits = st.multiselect("Pick some fruits:", list(my_fruit_list.index), default=['Avocado', 'Strawberries'])
+# The selected fruits are stored in the fruits_selected variable
+fruits_selected = st.multiselect("Pick some fruits:", list(my_fruit_list.index), default=['Avocado', 'Strawberries'])
 
-# Ask app to put the list of selected fruits into a variable called fruits_selected
-# Then, we'll ask our app to use the fruits in our fruits_selected list to pull rows from the full data set
-# and assign that data to a variable called fruits_to_show
-# Finally, we'll ask the app to used the data in fruits_to_show in the dataframe it displays on the page
-
-#let's put a pick list here so they can pick the fruit they want to include
-fruits_selected = streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index),['Avocado', 'Strawberries'])
+# Filter the DataFrame based on the selected fruits
+# Only rows that correspond to the selected fruits are retained
+# The filtered data is stored in the fruits_to_show variable
 fruits_to_show = my_fruit_list.loc[fruits_selected]
 
-#display the table on the page
-st.dataframe(fruits_to_show)
-
-#filter the DataFrame based on the selected fruits
-filtered_df = my_fruit_list.loc[selected_fruits]
-
 # Display the filtered DataFrame
-st.dataframe(filtered_df)
-
+# This shows the user information about the selected fruits
+st.dataframe(fruits_to_show)
 
 
 
